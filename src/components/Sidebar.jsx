@@ -6,7 +6,17 @@ const VIEWS = [
   { id: 'all',      label: 'Toutes',       icon: '◫' },
 ]
 
-function Sidebar({ lists, tasks, today, activeView, onViewChange, searchQuery, onSearch }) {
+function Sidebar({
+  lists,
+  tasks,
+  today,
+  activeView,
+  onViewChange,
+  searchQuery,
+  onSearch,
+  userEmail,
+  onSignOut,
+}) {
   function countFor(viewId) {
     if (viewId === 'today')    return tasks.filter(t => t.dueDate === today).length
     if (viewId === 'upcoming') return tasks.filter(t => t.dueDate > today).length
@@ -57,9 +67,14 @@ function Sidebar({ lists, tasks, today, activeView, onViewChange, searchQuery, o
       ))}
 
       <div className="sidebar-footer">
-        <button className="nav-item">
-          <span className="nav-icon">⚙</span>
-          <span className="nav-label">Paramètres</span>
+        {userEmail && (
+          <div className="sidebar-user" title={userEmail}>
+            <span className="sidebar-user-email">{userEmail}</span>
+          </div>
+        )}
+        <button type="button" className="nav-item" onClick={onSignOut}>
+          <span className="nav-icon">⎋</span>
+          <span className="nav-label">Déconnexion</span>
         </button>
       </div>
     </aside>

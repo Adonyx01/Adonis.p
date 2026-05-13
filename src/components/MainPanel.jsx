@@ -8,7 +8,7 @@ const VIEW_LABELS = {
   upcoming: 'À venir',
 }
 
-function MainPanel({ tasks, allTasks, lists, activeView, selectedTaskId, today, onSelect, onToggle, onDelete, onAdd }) {
+function MainPanel({ tasks, allTasks, lists, activeView, selectedTaskId, today, onSelect, onToggle, onDelete, onAdd, loading }) {
   const label = VIEW_LABELS[activeView] ?? lists.find(l => l.id === activeView)?.name ?? 'Tâches'
   const completed = allTasks.filter(t => t.completed).length
 
@@ -20,9 +20,11 @@ function MainPanel({ tasks, allTasks, lists, activeView, selectedTaskId, today, 
       </div>
 
       <div className="main-body">
-        <TaskForm lists={lists} activeView={activeView} onAdd={onAdd} />
+        <TaskForm lists={lists} activeView={activeView} onAdd={onAdd} disabled={loading} />
 
-        {tasks.length === 0 ? (
+        {loading ? (
+          <p className="empty-state">Chargement des tâches…</p>
+        ) : tasks.length === 0 ? (
           <p className="empty-state">Aucune tâche ici.</p>
         ) : (
           tasks.map(task => (

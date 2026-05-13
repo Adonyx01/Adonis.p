@@ -48,6 +48,38 @@ input, textarea, select { font-family: inherit; }
   color: var(--text);
   font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
   font-size: 14px;
+  position: relative;
+}
+
+.app-error-banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  font-size: 13px;
+  background: var(--red-dim);
+  color: var(--red);
+  border-bottom: 1px solid rgba(248, 113, 113, 0.35);
+}
+
+.app-error-dismiss {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border-radius: var(--radius-xs);
+  font-size: 12px;
+  color: var(--text);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+
+.app-error-dismiss:hover {
+  background: var(--bg-hover);
 }
 
 /* ══════════════════════════════════════════════════════
@@ -183,6 +215,23 @@ input, textarea, select { font-family: inherit; }
   margin-top: auto;
   padding-top: 12px;
   border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar-user {
+  padding: 6px 8px 8px;
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+.sidebar-user-email {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* ══════════════════════════════════════════════════════
@@ -749,4 +798,155 @@ input, textarea, select { font-family: inherit; }
   .main-header { padding: 20px 16px 14px; }
   .main-body { padding: 0 16px 16px; }
   .progress-area { padding: 12px 16px 16px; }
+}
+
+/* ══════════════════════════════════════════════════════
+   AUTH (connexion / inscription)
+══════════════════════════════════════════════════════ */
+.auth-loading {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-app);
+  color: var(--text-muted);
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: var(--bg-app);
+  color: var(--text);
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 32px 28px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.auth-title {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.auth-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  line-height: 1.45;
+}
+
+.auth-message {
+  font-size: 13px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.auth-message--error {
+  color: var(--red);
+  background: var(--red-dim);
+  border: 1px solid rgba(248, 113, 113, 0.25);
+}
+
+.auth-message--success {
+  color: var(--green);
+  background: var(--green-dim);
+  border: 1px solid rgba(74, 222, 128, 0.2);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.auth-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-top: 10px;
+}
+
+.auth-label:first-of-type {
+  margin-top: 0;
+}
+
+.auth-input {
+  width: 100%;
+  margin-bottom: 6px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.auth-input:focus {
+  border-color: var(--border-focus);
+}
+
+.auth-input::placeholder {
+  color: var(--text-dim);
+}
+
+.auth-btn--primary {
+  margin-top: 16px;
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f1412;
+  background: linear-gradient(135deg, var(--green), #22c55e);
+  border: none;
+  transition: opacity 0.15s, transform 0.1s;
+}
+
+.auth-btn--primary:hover:not(:disabled) {
+  opacity: 0.95;
+}
+
+.auth-btn--primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.auth-switch {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.auth-link {
+  display: inline;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--indigo);
+  font-size: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.auth-link:hover {
+  color: var(--text);
 }
