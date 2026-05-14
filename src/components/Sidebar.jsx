@@ -2,6 +2,7 @@ const VIEWS = [
   { id: 'upcoming', label: 'À venir',      icon: '»' },
   { id: 'today',    label: "Aujourd'hui",  icon: '≡' },
   { id: 'all',      label: 'Toutes',       icon: '◫' },
+  { id: 'done',     label: 'Terminées',    icon: '✓' },
 ]
 
 function Sidebar({
@@ -20,7 +21,8 @@ function Sidebar({
   function countFor(viewId) {
     if (viewId === 'today')    return tasks.filter(t => !t.completed && t.dueDate.slice(0, 10) === today).length
     if (viewId === 'upcoming') return tasks.filter(t => !t.completed && t.dueDate.slice(0, 10) > today).length
-    return tasks.length
+    if (viewId === 'done')     return tasks.filter(t => t.completed).length
+    return tasks.filter(t => !t.completed).length
   }
 
   return (

@@ -209,6 +209,7 @@ function TodoApp({ user }) {
 
   const visibleTasks = tasks.filter((task) => {
     if (searchQuery) return task.text.toLowerCase().includes(searchQuery.toLowerCase())
+    if (activeView === 'done') return task.completed
     if (task.completed) return false
     const dateStr = task.dueDate.slice(0, 10)
     if (activeView === 'today') return dateStr === today

@@ -6,6 +6,7 @@ const VIEW_LABELS = {
   all:      'Toutes les tâches',
   today:    "Aujourd'hui",
   upcoming: 'À venir',
+  done:     'Terminées',
 }
 
 function MainPanel({ tasks, allTasks, lists, activeView, selectedTaskId, today, onSelect, onToggle, onDelete, onAdd, loading, onMenuOpen }) {
