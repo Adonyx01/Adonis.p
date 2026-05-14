@@ -1,5 +1,3 @@
-
-import logo from "../components/logo.jpg";
 const VIEWS = [
   { id: 'upcoming', label: 'À venir',      icon: '»' },
   { id: 'today',    label: "Aujourd'hui",  icon: '≡' },
@@ -18,16 +16,16 @@ function Sidebar({
   onSignOut,
 }) {
   function countFor(viewId) {
-    if (viewId === 'today')    return tasks.filter(t => t.dueDate === today).length
-    if (viewId === 'upcoming') return tasks.filter(t => t.dueDate > today).length
+    if (viewId === 'today')    return tasks.filter(t => !t.completed && t.dueDate.slice(0, 10) === today).length
+    if (viewId === 'upcoming') return tasks.filter(t => !t.completed && t.dueDate.slice(0, 10) > today).length
     return tasks.length
   }
 
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">
-        <img src={logo} alt="Logo" className="logo-icon" />
-        <span className="logo-name">Adonis Project</span>
+        <div className="sidebar-logo-mark">✓</div>
+        <span className="logo-name">Todo App</span>
       </div>
 
       <div className="sidebar-search">

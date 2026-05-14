@@ -1,12 +1,16 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 function TaskForm({ lists, activeView, onAdd, disabled }) {
   const [text, setText] = useState('')
   const [priority, setPriority] = useState('normal')
-
-  const defaultListId = lists.find(l => l.id === activeView)?.id ?? lists[0]?.id ?? ''
-  const [listId, setListId] = useState(defaultListId)
+  const [listId, setListId] = useState(() => lists.find(l => l.id === activeView)?.id ?? lists[0]?.id ?? '')
   const [dueDate, setDueDate] = useState('')
+
+  // Sync listId when switching to a list-specific view
+  useEffect(() => {
+    const matchingList = lists.find(l => l.id === activeView)
+    if (matchingList) setListId(matchingList.id)
+  }, [activeView, lists])
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -39,6 +43,7 @@ function TaskForm({ lists, activeView, onAdd, disabled }) {
       </select>
       <input
         type="datetime-local"
+        className="task-form-date"
         value={dueDate}
         disabled={disabled}
         onChange={e => setDueDate(e.target.value)}

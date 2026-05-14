@@ -3,9 +3,17 @@ function TaskItem({ task, lists, today, selected, onSelect, onToggle, onDelete }
 
   function dateLabel() {
     if (!task.dueDate) return null
-    if (task.dueDate === today) return { text: 'Aujourd\'hui', cls: 'today' }
-    if (task.dueDate < today)  return { text: task.dueDate, cls: 'overdue' }
-    return { text: task.dueDate, cls: '' }
+    const dateStr = task.dueDate.slice(0, 10)
+    const timeStr = task.dueDate.length > 10 ? task.dueDate.slice(11, 16) : null
+    const time = timeStr && timeStr !== '00:00' ? ` · ${timeStr}` : ''
+
+    if (dateStr === today) return { text: `Aujourd'hui${time}`, cls: 'today' }
+    if (dateStr < today) {
+      const [y, m, d] = dateStr.split('-')
+      return { text: `${d}/${m}${time}`, cls: 'overdue' }
+    }
+    const label = new Date(`${dateStr}T12:00:00`).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })
+    return { text: `${label}${time}`, cls: 'future' }
   }
 
   const date = dateLabel()

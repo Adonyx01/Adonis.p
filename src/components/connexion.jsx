@@ -83,8 +83,14 @@ function Connexion() {
 
   return (
     <div className="auth-page">
+      <div className="auth-brand">
+        <div className="auth-logo-mark">✓</div>
+        <h1 className="auth-app-name">Todo App <span className="by">by Adonis</span></h1>
+        <p className="auth-tagline">Organisez votre journée, maîtrisez votre temps.</p>
+      </div>
+
       <div className="auth-card">
-        <h1 className="auth-title">{mode === 'login' ? 'Connexion' : 'Inscription'}</h1>
+        <h2 className="auth-title">{mode === 'login' ? 'Connexion' : 'Inscription'}</h2>
         <p className="auth-subtitle">
           {mode === 'login'
             ? 'Connecte-toi pour accéder à tes tâches.'

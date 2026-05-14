@@ -70,9 +70,9 @@ function TaskDetail({ task, lists, onUpdate, onDelete, onClose, onAddSubtask, on
         <div className="detail-field">
           <span className="detail-field-label">Date d'échéance</span>
           <input
-            type="date"
+            type="datetime-local"
             className="detail-input-date"
-            value={task.dueDate}
+            value={task.dueDate.length === 10 ? task.dueDate + 'T00:00' : task.dueDate}
             onChange={e => handleField('dueDate', e.target.value)}
           />
         </div>

@@ -167,7 +167,7 @@ function TodoApp({ user }) {
   }
 
   function addSubtask(taskId, text) {
-    const sub = { id: Date.now(), text, completed: false }
+    const sub = { id: crypto.randomUUID(), text, completed: false }
     setTasks((prev) => {
       const next = prev.map((t) =>
         t.id === taskId ? { ...t, subtasks: [...t.subtasks, sub] } : t
@@ -208,8 +208,9 @@ function TodoApp({ user }) {
 
   const visibleTasks = tasks.filter((task) => {
     if (searchQuery) return task.text.toLowerCase().includes(searchQuery.toLowerCase())
-    if (activeView === 'today') return task.dueDate === today
-    if (activeView === 'upcoming') return task.dueDate > today
+    const dateStr = task.dueDate.slice(0, 10)
+    if (activeView === 'today') return !task.completed && dateStr === today
+    if (activeView === 'upcoming') return !task.completed && dateStr > today
     if (activeView !== 'all') return task.listId === activeView
     return true
   })

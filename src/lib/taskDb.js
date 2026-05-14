@@ -5,9 +5,13 @@ export const TASKS_TABLE = 'tasks'
 
 function dueDateFromRow(due) {
   if (due == null || due === '') return ''
-  if (typeof due === 'string') return due.slice(0, 10)
+  if (typeof due === 'string') {
+    // Preserve time if present (for datetime-local input: "YYYY-MM-DDTHH:MM")
+    if (due.includes('T')) return due.slice(0, 16)
+    return due.slice(0, 10)
+  }
   try {
-    return new Date(due).toISOString().slice(0, 10)
+    return new Date(due).toISOString().slice(0, 16)
   } catch {
     return ''
   }
@@ -55,7 +59,10 @@ export function buildUpdatePatch(changes) {
   if ('completed' in changes) patch.completed = changes.completed
   if ('priority' in changes) patch.priority = changes.priority
   if ('listId' in changes) patch.list_id = changes.listId
-  if ('dueDate' in changes) patch.due_date = normalizeDueDate(changes.dueDate)
+  if ('dueDate' in changes) {
+    patch.due_date = normalizeDueDate(changes.dueDate)
+    patch.reminder_sent_at = null // reset so new reminder fires for updated due time
+  }
   if ('subtasks' in changes) patch.subtasks = changes.subtasks
   return patch
 }

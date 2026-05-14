@@ -1,23 +1,23 @@
 /* ── Design tokens ─────────────────────────────────── */
 :root {
-  --bg-app:     #101714;
---bg-sidebar: #16211d;
---bg-card:    #1d2b25;
---bg-hover:   #2a3c35;
---bg-active:  #395248;
---bg-input:   #223129;
---bg-detail:  #0d120f;
+  --bg-app:     #0d0d1a;
+  --bg-sidebar: #12112a;
+  --bg-card:    #1a1830;
+  --bg-hover:   #23203d;
+  --bg-active:  #2e2a50;
+  --bg-input:   #16143a;
+  --bg-detail:  #09091a;
 
-  --border:         rgba(255, 255, 255, 0.06);
-  --border-active:  rgba(255, 255, 255, 0.12);
-  --border-focus:   rgba(99, 102, 241, 0.6);
+  --border:         rgba(255, 255, 255, 0.07);
+  --border-active:  rgba(255, 255, 255, 0.13);
+  --border-focus:   rgba(167, 139, 250, 0.6);
 
   --text:       #e8e9f0;
   --text-muted: #8b8d9e;
   --text-dim:   #4e5060;
 
-  --green:      #4ade80;
-  --green-dim:  rgba(74, 222, 128, 0.12);
+  --green:      #a78bfa;
+  --green-dim:  rgba(167, 139, 250, 0.13);
   --indigo:     #818cf8;
   --indigo-dim: rgba(129, 140, 248, 0.15);
   --blue:       #60a5fa;
@@ -46,7 +46,7 @@ input, textarea, select { font-family: inherit; }
   overflow: hidden;
   background: var(--bg-app);
   color: var(--text);
-  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Inter', 'Segoe UI', system-ui, sans-serif;
   font-size: 14px;
   position: relative;
 }
@@ -106,16 +106,19 @@ input, textarea, select { font-family: inherit; }
   margin-bottom: 8px;
 }
 
-.sidebar-logo .logo-icon {
-  width: 30px;
-  height: 30px;
-  background: var(--indigo);
-  border-radius: var(--radius-sm);
+.sidebar-logo-mark {
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #a78bfa, #818cf8);
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
-  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  color: #0f0d1a;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(167, 139, 250, 0.3);
 }
 
 .sidebar-logo .logo-name {
@@ -327,6 +330,32 @@ input, textarea, select { font-family: inherit; }
 
 .task-form-inline select option { background: var(--bg-card); }
 
+.task-form-date {
+  background: var(--bg-hover);
+  border: 1px solid var(--border-active);
+  border-radius: var(--radius-xs);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-family: inherit;
+  padding: 4px 6px;
+  outline: none;
+  color-scheme: dark;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.task-form-date:focus {
+  border-color: var(--green);
+  color: var(--text);
+}
+
+.task-form-date::-webkit-calendar-picker-indicator {
+  filter: invert(0.6) sepia(1) saturate(4) hue-rotate(220deg);
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.task-form-date::-webkit-calendar-picker-indicator:hover { opacity: 1; }
+
 .btn-add-task {
   font-size: 12px;
   font-weight: 600;
@@ -397,7 +426,7 @@ input, textarea, select { font-family: inherit; }
   display: block;
   width: 5px;
   height: 9px;
-  border: 2px solid #0f1a12;
+  border: 2px solid #0f0d1a;
   border-top: none;
   border-left: none;
   transform: rotate(45deg) translate(-0.5px, -1px);
@@ -431,11 +460,15 @@ input, textarea, select { font-family: inherit; }
 
 .meta-date {
   font-size: 11px;
-  color: var(--text-dim);
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .meta-date.overdue { color: var(--red); }
-.meta-date.today { color: var(--yellow); }
+.meta-date.today   { color: var(--yellow); font-weight: 600; }
+.meta-date.future  { color: var(--indigo); }
 
 /* Priority dot */
 .priority-dot {
@@ -638,7 +671,7 @@ input, textarea, select { font-family: inherit; }
 .detail-select,
 .detail-input-date {
   background: var(--bg-card);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-active);
   border-radius: var(--radius-sm);
   color: var(--text);
   font-size: 13px;
@@ -646,10 +679,21 @@ input, textarea, select { font-family: inherit; }
   outline: none;
   transition: border-color 0.15s;
   width: 100%;
+  color-scheme: dark;
+}
+
+.detail-input-date::-webkit-calendar-picker-indicator {
+  filter: invert(0.7) sepia(1) saturate(4) hue-rotate(220deg);
+  cursor: pointer;
+  opacity: 0.75;
+}
+
+.detail-input-date::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
 }
 
 .detail-select:focus,
-.detail-input-date:focus { border-color: var(--border-focus); }
+.detail-input-date:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(167,139,250,0.15); }
 .detail-select option { background: var(--bg-card); }
 
 /* Priority buttons */
@@ -713,7 +757,7 @@ input, textarea, select { font-family: inherit; }
   display: block;
   width: 4px;
   height: 7px;
-  border: 1.5px solid #0f1a12;
+  border: 1.5px solid #0f0d1a;
   border-top: none;
   border-left: none;
   transform: rotate(45deg) translate(-0.5px, -1px);
@@ -810,34 +854,87 @@ input, textarea, select { font-family: inherit; }
   justify-content: center;
   background: var(--bg-app);
   color: var(--text-muted);
-  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
 }
 
 .auth-page {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 28px;
   padding: 24px;
   background: var(--bg-app);
+  background-image:
+    radial-gradient(ellipse 60% 50% at 50% 0%, rgba(167,139,250,0.08) 0%, transparent 70%);
   color: var(--text);
-  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Inter', 'Segoe UI', system-ui, sans-serif;
 }
 
+/* ── Brand block ─────────────────────────────────── */
+.auth-brand {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.auth-logo-mark {
+  width: 54px;
+  height: 54px;
+  background: linear-gradient(135deg, #a78bfa, #818cf8);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: 800;
+  color: #0f0d1a;
+  box-shadow: 0 8px 28px rgba(167, 139, 250, 0.28);
+  margin-bottom: 4px;
+}
+
+.auth-app-name {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.5px;
+  line-height: 1.15;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+.auth-app-name .by {
+  background: linear-gradient(90deg, #a78bfa, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.auth-tagline {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  font-style: italic;
+  letter-spacing: 0.1px;
+}
+
+/* ── Card ────────────────────────────────────────── */
 .auth-card {
   width: 100%;
-  max-width: 400px;
-  padding: 32px 28px;
+  max-width: 380px;
+  padding: 28px 28px 24px;
   background: var(--bg-card);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-active);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.45);
 }
 
 .auth-title {
-  font-size: 1.35rem;
-  font-weight: 600;
-  margin-bottom: 6px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: var(--text);
 }
 
 .auth-subtitle {
@@ -875,60 +972,64 @@ input, textarea, select { font-family: inherit; }
 
 .auth-label {
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-muted);
-  margin-top: 10px;
+  margin-top: 12px;
+  letter-spacing: 0.3px;
 }
 
-.auth-label:first-of-type {
-  margin-top: 0;
-}
+.auth-label:first-of-type { margin-top: 0; }
 
 .auth-input {
   width: 100%;
-  margin-bottom: 6px;
+  margin-bottom: 2px;
   padding: 10px 12px;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-active);
   background: var(--bg-input);
   color: var(--text);
   font-size: 14px;
+  font-family: inherit;
   outline: none;
-  transition: border-color 0.15s;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .auth-input:focus {
-  border-color: var(--border-focus);
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.15);
 }
 
-.auth-input::placeholder {
-  color: var(--text-dim);
-}
+.auth-input::placeholder { color: var(--text-dim); }
 
 .auth-btn--primary {
-  margin-top: 16px;
+  margin-top: 18px;
   width: 100%;
   padding: 11px 14px;
   border-radius: var(--radius-sm);
   font-size: 14px;
-  font-weight: 600;
-  color: #0f1412;
-  background: linear-gradient(135deg, var(--green), #22c55e);
+  font-weight: 700;
+  font-family: inherit;
+  color: #f5f3ff;
+  background: linear-gradient(135deg, #a78bfa, #6366f1);
   border: none;
-  transition: opacity 0.15s, transform 0.1s;
+  transition: opacity 0.15s, transform 0.1s, box-shadow 0.15s;
+  letter-spacing: 0.2px;
 }
 
 .auth-btn--primary:hover:not(:disabled) {
-  opacity: 0.95;
+  box-shadow: 0 4px 20px rgba(167, 139, 250, 0.4);
+  transform: translateY(-1px);
 }
 
+.auth-btn--primary:active:not(:disabled) { transform: translateY(0); }
+
 .auth-btn--primary:disabled {
-  opacity: 0.55;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
 .auth-switch {
-  margin-top: 20px;
+  margin-top: 18px;
   text-align: center;
   font-size: 13px;
   color: var(--text-muted);
@@ -939,14 +1040,16 @@ input, textarea, select { font-family: inherit; }
   padding: 0;
   background: none;
   border: none;
-  color: var(--indigo);
+  color: var(--green);
   font-size: inherit;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 2px;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(74, 222, 128, 0.4);
+  transition: color 0.12s, border-color 0.12s;
 }
 
 .auth-link:hover {
   color: var(--text);
+  border-color: transparent;
 }
