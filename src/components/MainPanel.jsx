@@ -8,13 +8,16 @@ const VIEW_LABELS = {
   upcoming: 'À venir',
 }
 
-function MainPanel({ tasks, allTasks, lists, activeView, selectedTaskId, today, onSelect, onToggle, onDelete, onAdd, loading }) {
+function MainPanel({ tasks, allTasks, lists, activeView, selectedTaskId, today, onSelect, onToggle, onDelete, onAdd, loading, onMenuOpen }) {
   const label = VIEW_LABELS[activeView] ?? lists.find(l => l.id === activeView)?.name ?? 'Tâches'
   const completed = allTasks.filter(t => t.completed).length
 
   return (
     <div className="main-panel">
       <div className="main-header">
+        <button type="button" className="btn-menu" onClick={onMenuOpen} aria-label="Menu">
+          <span className="btn-menu-icon">☰</span>
+        </button>
         <h1 className="main-title">{label}</h1>
         <span className="main-count">{tasks.length}</span>
       </div>

@@ -527,6 +527,39 @@ input, textarea, select { font-family: inherit; }
 .task-item:hover .btn-delete-task { opacity: 1; }
 .btn-delete-task:hover { color: var(--red); background: var(--red-dim); }
 
+/* Delete confirmation inline */
+.delete-confirm {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.delete-confirm-cancel {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--bg-hover);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  padding: 3px 8px;
+  transition: background 0.12s, color 0.12s;
+}
+.delete-confirm-cancel:hover { background: var(--bg-active); color: var(--text); }
+
+.delete-confirm-ok {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--red);
+  background: var(--red-dim);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  border-radius: var(--radius-xs);
+  padding: 3px 8px;
+  transition: background 0.12s, border-color 0.12s;
+}
+.delete-confirm-ok:hover { background: rgba(248, 113, 113, 0.25); border-color: var(--red); }
+
+.task-item.confirming { border-color: rgba(248, 113, 113, 0.25); background: var(--bg-hover); }
+
 /* ══════════════════════════════════════════════════════
    PROGRESS BAR
 ══════════════════════════════════════════════════════ */
@@ -830,6 +863,43 @@ input, textarea, select { font-family: inherit; }
 
 .btn-delete-full:hover { border-color: var(--red); }
 
+/* ── Hamburger button (hidden on desktop) ───────────── */
+.btn-menu {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: background 0.12s, color 0.12s;
+}
+.btn-menu:hover { background: var(--bg-hover); color: var(--text); }
+.btn-menu-icon { font-size: 18px; line-height: 1; }
+
+/* Sidebar close button (hidden on desktop) */
+.btn-sidebar-close {
+  display: none;
+  margin-left: auto;
+  color: var(--text-dim);
+  font-size: 14px;
+  padding: 4px 7px;
+  border-radius: var(--radius-xs);
+  transition: background 0.12s, color 0.12s;
+}
+.btn-sidebar-close:hover { background: var(--bg-hover); color: var(--text); }
+
+/* Sidebar overlay (hidden on desktop) */
+.sidebar-overlay {
+  display: none;
+}
+
+/* Task form extras — inline on desktop */
+.task-form-extras {
+  display: contents;
+}
+
 /* ── Responsive ─────────────────────────────────────── */
 @media (max-width: 900px) {
   .sidebar { width: 200px; }
@@ -837,11 +907,69 @@ input, textarea, select { font-family: inherit; }
 }
 
 @media (max-width: 680px) {
-  .sidebar { display: none; }
-  .task-detail { position: fixed; right: 0; top: 0; bottom: 0; z-index: 10; box-shadow: var(--shadow-md); }
-  .main-header { padding: 20px 16px 14px; }
-  .main-body { padding: 0 16px 16px; }
-  .progress-area { padding: 12px 16px 16px; }
+  /* Sidebar becomes a slide-in drawer */
+  .sidebar {
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    z-index: 40;
+    width: 270px;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    box-shadow: none;
+  }
+  .sidebar.open {
+    transform: translateX(0);
+    box-shadow: 4px 0 32px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Overlay behind open sidebar */
+  .sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 39;
+  }
+
+  /* Show hamburger and sidebar close buttons */
+  .btn-menu { display: flex; }
+  .btn-sidebar-close { display: block; }
+
+  /* Header */
+  .main-header { padding: 14px 14px 10px; gap: 8px; }
+  .main-title { font-size: 20px; }
+  .main-count { font-size: 20px; }
+
+  /* Body */
+  .main-body { padding: 0 12px 14px; }
+  .progress-area { padding: 10px 14px 14px; }
+
+  /* Task form: secondary controls wrap to second row */
+  .task-form-inline { flex-wrap: wrap; gap: 8px; }
+  .task-form-extras {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    width: 100%;
+    align-items: center;
+  }
+  .task-form-extras select,
+  .task-form-extras .task-form-date {
+    flex: 1;
+    min-width: 90px;
+  }
+  .task-form-extras .btn-add-task {
+    margin-left: auto;
+  }
+
+  /* Task detail: full screen overlay */
+  .task-detail {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    z-index: 30;
+    box-shadow: none;
+  }
 }
 
 /* ══════════════════════════════════════════════════════

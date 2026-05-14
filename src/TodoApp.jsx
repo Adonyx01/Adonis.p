@@ -27,6 +27,7 @@ function TodoApp({ user }) {
   const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState(null)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const persistTimers = useRef(new Map())
   const pendingPatch = useRef(new Map())
@@ -208,9 +209,10 @@ function TodoApp({ user }) {
 
   const visibleTasks = tasks.filter((task) => {
     if (searchQuery) return task.text.toLowerCase().includes(searchQuery.toLowerCase())
+    if (task.completed) return false
     const dateStr = task.dueDate.slice(0, 10)
-    if (activeView === 'today') return !task.completed && dateStr === today
-    if (activeView === 'upcoming') return !task.completed && dateStr > today
+    if (activeView === 'today') return dateStr === today
+    if (activeView === 'upcoming') return dateStr > today
     if (activeView !== 'all') return task.listId === activeView
     return true
   })
@@ -227,14 +229,20 @@ function TodoApp({ user }) {
           </button>
         </div>
       )}
+      {sidebarOpen && (
+        <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />
+      )}
       <Sidebar
         lists={lists}
         tasks={tasks}
         today={today}
         activeView={activeView}
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
         onViewChange={(v) => {
           setActiveView(v)
           setSelectedTaskId(null)
+          setSidebarOpen(false)
         }}
         searchQuery={searchQuery}
         onSearch={setSearchQuery}
@@ -253,6 +261,7 @@ function TodoApp({ user }) {
         onDelete={deleteTask}
         onAdd={addTask}
         loading={loading}
+        onMenuOpen={() => setSidebarOpen(true)}
       />
       {selectedTask && (
         <TaskDetail

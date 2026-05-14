@@ -33,24 +33,26 @@ function TaskForm({ lists, activeView, onAdd, disabled }) {
         disabled={disabled}
         onChange={e => setText(e.target.value)}
       />
-      <select value={priority} onChange={e => setPriority(e.target.value)} disabled={disabled}>
-        <option value="low">Faible</option>
-        <option value="normal">Normale</option>
-        <option value="high">Haute</option>
-      </select>
-      <select value={listId} onChange={e => setListId(e.target.value)} disabled={disabled}>
-        {lists.map(l => <option key={l.id} value={l.id}>{l.name}</option>)}
-      </select>
-      <input
-        type="datetime-local"
-        className="task-form-date"
-        value={dueDate}
-        disabled={disabled}
-        onChange={e => setDueDate(e.target.value)}
-      />
-      {text.trim() && (
-        <button type="submit" className="btn-add-task">Ajouter</button>
-      )}
+      <div className="task-form-extras">
+        <select value={priority} onChange={e => setPriority(e.target.value)} disabled={disabled}>
+          <option value="low">Faible</option>
+          <option value="normal">Normale</option>
+          <option value="high">Haute</option>
+        </select>
+        <select value={listId} onChange={e => setListId(e.target.value)} disabled={disabled}>
+          {lists.map(l => <option key={l.id} value={l.id}>{l.name}</option>)}
+        </select>
+        <input
+          type="datetime-local"
+          className="task-form-date"
+          value={dueDate}
+          disabled={disabled}
+          onChange={e => setDueDate(e.target.value)}
+        />
+        {text.trim() && (
+          <button type="submit" className="btn-add-task">Ajouter</button>
+        )}
+      </div>
     </form>
   )
 }

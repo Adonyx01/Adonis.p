@@ -1,5 +1,14 @@
+import { useState, useEffect } from 'react'
+
 function TaskItem({ task, lists, today, selected, onSelect, onToggle, onDelete }) {
   const list = lists.find(l => l.id === task.listId)
+  const [confirming, setConfirming] = useState(false)
+
+  useEffect(() => {
+    if (!confirming) return
+    const t = setTimeout(() => setConfirming(false), 3000)
+    return () => clearTimeout(t)
+  }, [confirming])
 
   function dateLabel() {
     if (!task.dueDate) return null
@@ -24,14 +33,20 @@ function TaskItem({ task, lists, today, selected, onSelect, onToggle, onDelete }
     onToggle()
   }
 
-  function handleDelete(e) {
+  function handleDeleteClick(e) {
     e.stopPropagation()
+    if (!confirming) { setConfirming(true); return }
     onDelete()
+  }
+
+  function handleCancel(e) {
+    e.stopPropagation()
+    setConfirming(false)
   }
 
   return (
     <div
-      className={`task-item ${task.completed ? 'completed' : ''} ${selected ? 'selected' : ''}`}
+      className={`task-item ${task.completed ? 'completed' : ''} ${selected ? 'selected' : ''} ${confirming ? 'confirming' : ''}`}
       onClick={onSelect}
     >
       <button
@@ -59,9 +74,18 @@ function TaskItem({ task, lists, today, selected, onSelect, onToggle, onDelete }
       </div>
 
       <div className="task-right">
-        <span className={`priority-dot ${task.priority}`} />
-        <button className="btn-delete-task" onClick={handleDelete} aria-label="Supprimer">✕</button>
-        <span className="task-arrow">›</span>
+        {confirming ? (
+          <div className="delete-confirm">
+            <button className="delete-confirm-cancel" onClick={handleCancel}>Annuler</button>
+            <button className="delete-confirm-ok" onClick={handleDeleteClick}>Supprimer</button>
+          </div>
+        ) : (
+          <>
+            <span className={`priority-dot ${task.priority}`} />
+            <button className="btn-delete-task" onClick={handleDeleteClick} aria-label="Supprimer">✕</button>
+            <span className="task-arrow">›</span>
+          </>
+        )}
       </div>
     </div>
   )

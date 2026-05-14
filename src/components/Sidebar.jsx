@@ -9,6 +9,8 @@ function Sidebar({
   tasks,
   today,
   activeView,
+  isOpen,
+  onClose,
   onViewChange,
   searchQuery,
   onSearch,
@@ -22,10 +24,11 @@ function Sidebar({
   }
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
       <div className="sidebar-logo">
         <div className="sidebar-logo-mark">✓</div>
         <span className="logo-name">Todo App</span>
+        <button type="button" className="btn-sidebar-close" onClick={onClose} aria-label="Fermer">✕</button>
       </div>
 
       <div className="sidebar-search">
